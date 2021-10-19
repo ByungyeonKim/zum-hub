@@ -7,10 +7,76 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
-    <title>ZUM 허브</title>
+    <title>ZUM 허브 - 일상을 읽다</title>
     <script src="./main.js" type="module" defer></script>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <header>
+        <h1>
+          <a href="">ZUM 허브</a>
+        </h1>
+        <label for="search"></label>
+        <input type="text" id="search" placeholder="허브글, 채널 검색" />
+        <nav class="global-nav-bar">
+          <h2 class="blind">모든 페이지 메뉴</h2>
+          <ul class="gnb-service">
+            <li><a href="#">뉴스</a></li>
+            <li><a href="#">TV</a></li>
+            <li><a href="#">허브</a></li>
+            <li><a href="#">쇼핑</a></li>
+          </ul>
+          <div class="gnv-login">로그인</div>
+        </nav>
+      </header>
+      <main class="home">
+        <h1 class="blind">줌 허브 홈</h1>
+        <nav class="category-menu">
+          <h2 class="blind">카테고리 메뉴</h2>
+          <ul class="menu-list">
+            <li class="menu-item">
+              <h3 class="blind">카테고리 아이템</h3>
+              HOME
+            </li>
+          </ul>
+        </nav>
+        <section class="contants-wrap">
+          <h2 class="tag-title">태그 콘텐츠</h2>
+          <article class="content">
+            <h3 class="blind">태그 글</h3>
+            <img
+              class="thumbnail"
+              src="https://via.placeholder.com/270x200"
+              alt="기사"
+            />
+            <strong class="title">제목</strong>
+            <p class="description">설명</p>
+            <span class="author">저자</span>
+          </article>
+        </section>
+        <div class="best-wrap">
+          <h2>실시간 TOP 12</h2>
+          <ul class="best-box">
+            <li class="best-item">
+              <span class="lank">랭크</span>
+              <div class="title-box">
+                <strong class="title">제목</strong>
+                <span class="author">저자</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </main>
+      <footer>
+        <ul class="stacks-list">
+          <li class="stacks-item">Vanilla JS</li>
+          <li class="stacks-item">Node.js v14.18.1</li>
+          <li class="stacks-item">Express.js v4.17.1</li>
+          <li class="stacks-item">Nodemon v2.0.13</li>
+          <li class="stacks-item">HTML5, CSS3</li>
+        </ul>
+      </footer>
+    </div>
   </body>
 </html>
