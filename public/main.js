@@ -19,6 +19,7 @@ let state = {
   food: [],
   trip: [],
   culture: [],
+  best: [],
 };
 
 const setState = (newState) => {
@@ -49,31 +50,39 @@ const MenuItem = ({ title }) => `
   <li class="menu-item">${title}</li>
 `;
 
-const LifeContents = () => `
-  <section class="contants-wrap">
-    <h2 class="tag-title"># 라이프</h2>
-    ${state.life.slice(0, 4).map(Article).join('')}
+const Life = () => `
+  <section class="contents-section">
+    <h2 class="tag-title">#라이프</h2>
+    <div class="contents-wrap">
+      ${state.life.slice(0, 4).map(Article).join('')}
+    </div>
   </section>
 `;
 
-const FoodContents = () => `
-  <section class="contants-wrap">
-    <h2 class="tag-title"># 푸드</h2>
-    ${state.food.slice(0, 4).map(Article).join('')}
+const Food = () => `
+  <section class="contents-section">
+    <h2 class="tag-title">#푸드</h2>
+    <div class="contents-wrap">
+      ${state.food.slice(0, 4).map(Article).join('')}
+    </div>
   </section>
 `;
 
-const TripContents = () => `
-  <section class="contants-wrap">
-    <h2 class="tag-title"># 여행</h2>
-    ${state.trip.slice(0, 4).map(Article).join('')}
+const Trip = () => `
+  <section class="contents-section">
+    <h2 class="tag-title">#여행</h2>
+    <div class="contents-wrap">
+      ${state.trip.slice(0, 4).map(Article).join('')}
+    </div>
   </section>
 `;
 
-const CultureContents = () => `
-  <section class="contants-wrap">
-    <h2 class="tag-title"># 문화</h2>
-    ${state.culture.slice(0, 4).map(Article).join('')}
+const Culture = () => `
+  <section class="contents-section">
+    <h2 class="tag-title">#문화</h2>
+    <div class="contents-wrap">
+      ${state.culture.slice(0, 4).map(Article).join('')}
+    </div>
   </section>
 `;
 
@@ -87,21 +96,41 @@ const Article = ({ title, imageUrl, mediaName, summaryContent }) => `
     />
     <strong class="title">${title}</strong>
     <p class="description">${summaryContent}</p>
-    <span class="author">${mediaName}</span>
+    <span class="author">by ${mediaName}</span>
   </article>
+`;
+
+const Best = () => `
+  <section class="best-section">
+    <h2 class="tag-title">#실시간 TOP 12</h2>
+    <ul class="best-list">
+      ${state.best.map(BestArticle).join('')}
+    </ul>
+  </section>
+`;
+
+const BestArticle = ({ title, mediaName, url }, lank) => `
+  <li class="best-item">
+    <span class="lank">${lank + 1}</span>
+    <div class="title-box">
+      <strong class="title">${title}</strong>
+      <span class="author">by ${mediaName}</span>
+    </div>
+  </li>
 `;
 
 const render = () => {
   const app = document.querySelector('#app');
   app.innerHTML = `
     <header>
-      <h1>
-        <a href="">ZUM 허브</a>
-      </h1>
-      <div class="service-wrap">
-        <label for="search"></label>
-        <input type="text" id="search" placeholder="허브글, 채널 검색" />
-        ${ZumService()}
+      <div class="header-wrap">
+        <h1 class="logo">
+          <a href="">ZUM 허브</a>
+        </h1>
+        <div class="service-wrap">
+          <input type="text" class="search" placeholder="허브글, 채널 검색" />
+          ${ZumService()}
+        </div>
       </div>
     </header>
     <main class="home">
@@ -110,22 +139,11 @@ const render = () => {
         <h2 class="blind">전체 메뉴</h2>
         ${MenuList()}
       </nav>
-      ${LifeContents()}
-      ${FoodContents()}
-      ${TripContents()}
-      ${CultureContents()}
-      <div class="best-wrap">
-        <h2>실시간 TOP 12</h2>
-        <ul class="best-box">
-          <li class="best-item">
-            <span class="lank">랭크</span>
-            <div class="title-box">
-              <strong class="title">제목</strong>
-              <span class="author">저자</span>
-            </div>
-          </li>
-        </ul>
-      </div>
+      ${Life()}
+      ${Food()}
+      ${Trip()}
+      ${Culture()}
+      ${Best()}
     </main>
     <footer>
       <ul class="stacks-list">
@@ -165,4 +183,10 @@ contents //
   .culture()
   .then((articles) => {
     setState({ culture: articles });
+  });
+
+contents //
+  .best()
+  .then((articles) => {
+    setState({ best: articles });
   });
