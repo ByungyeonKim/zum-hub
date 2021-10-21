@@ -13,39 +13,21 @@ const render = () => {
   `;
 };
 
+const category = ['life', 'food', 'trip', 'culture'];
 const contents = new Contents();
 
-contents //
-  .life()
-  .then((articles) => {
-    store.setState({ life: articles });
-    render();
-  });
+for (const name of category) {
+  contents //
+    .getContents(name)
+    .then((result) => {
+      store.setState({ [name]: result });
+      render();
+    });
+}
 
 contents //
-  .food()
-  .then((articles) => {
-    store.setState({ food: articles });
-    render();
-  });
-
-contents //
-  .trip()
-  .then((articles) => {
-    store.setState({ trip: articles });
-    render();
-  });
-
-contents //
-  .culture()
-  .then((articles) => {
-    store.setState({ culture: articles });
-    render();
-  });
-
-contents //
-  .best()
-  .then((articles) => {
-    store.setState({ best: articles });
+  .realTimeBest()
+  .then((result) => {
+    store.setState({ realTimeBest: result });
     render();
   });
