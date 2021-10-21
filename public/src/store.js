@@ -25,7 +25,7 @@ const store = {
     food: [],
     trip: [],
     culture: [],
-    best: [],
+    realTimeBest: [],
   },
 
   setState(newState) {

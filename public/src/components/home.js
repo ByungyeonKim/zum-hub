@@ -11,7 +11,7 @@ const Home = () => `
     ${Food()}
     ${Trip()}
     ${Culture()}
-    ${Best()}
+    ${RealTimeBest()}
   </main>
 `;
 
@@ -75,11 +75,11 @@ const Article = ({ title, imageUrl, mediaName, summaryContent }) => `
   </article>
 `;
 
-const Best = () => `
+const RealTimeBest = () => `
   <section class="best-section">
     <h2 class="tag-title">#실시간 TOP 12</h2>
     <ul class="best-list">
-      ${store.state.best.map(BestArticle).join('')}
+      ${store.state.realTimeBest.map(BestArticle).join('')}
     </ul>
   </section>
 `;
