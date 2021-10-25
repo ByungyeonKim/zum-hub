@@ -18,8 +18,14 @@ class Contents {
   }
 
   async realTimeBest() {
+    const res = await fetch(`${this.baseURL}/best`, this.requestOptions);
+    const result = await res.json();
+    return result;
+  }
+
+  async detailPage(url) {
     const res = await fetch(
-      `${this.baseURL}/content/best`,
+      `${this.baseURL}/detail/${url}`,
       this.requestOptions
     );
     const result = await res.json();

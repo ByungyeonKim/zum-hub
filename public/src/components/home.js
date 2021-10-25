@@ -61,8 +61,8 @@ const Culture = () => `
   </section>
 `;
 
-const Article = ({ title, imageUrl, mediaName, summaryContent }) => `
-  <article class="content">
+const Article = ({ title, imageUrl, mediaName, summaryContent, url }) => `
+  <article class="content" data-url="${url}">
     <h3 class="blind">${title}</h3>
     <img
       class="thumbnail"
