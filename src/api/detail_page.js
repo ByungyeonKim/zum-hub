@@ -16,13 +16,11 @@ router.get('/:url', (req, res) => {
   getHtml()
     .then((html) => {
       const $ = cheerio.load(html.data);
-      const data = [
-        {
-          title: $('div.article_header > div > div > h2').text(),
-          mainContents: $('div.article.d_article').html(),
-          mediaName: $('#btn_media').text(),
-        },
-      ];
+      const data = {
+        title: $('div.article_header > div > div > h2').text(),
+        mainContents: $('div.article.d_article').html(),
+        mediaName: $('#btn_media').text(),
+      };
 
       return data;
     })
