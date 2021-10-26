@@ -38,12 +38,32 @@ const goToDetailPage = () => {
         .detailPage(url)
         .then((result) => {
           store.setSelectedPage({ selectedPage: result });
-          console.log(store);
           render();
+          useLazyLoading();
         });
       selectedPage = true;
     });
   });
+};
+
+const useLazyLoading = () => {
+  const imgs = document.querySelectorAll('.article-body img');
+
+  const observerCallback = (entries, observer) => {
+    entries.forEach(({ isIntersecting, intersectionRatio, target }) => {
+      console.log(target);
+
+      if (isIntersecting && intersectionRatio > 0) {
+        if (target.dataset.src) {
+          target.src = target.dataset.src;
+        }
+        observer.unobserve(target);
+      }
+    });
+  };
+
+  const io = new IntersectionObserver(observerCallback);
+  imgs.forEach((img) => io.observe(img));
 };
 
 const render = () => {
