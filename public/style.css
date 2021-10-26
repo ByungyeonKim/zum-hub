@@ -371,3 +371,11 @@ footer .stacks-list .stacks-item {
   padding: 48px 0;
   margin: auto;
 }
+
+.se2_quote6 {
+  color: var(--cl-description);
+  line-height: 27px;
+  border: 1px solid var(--cl-border);
+  padding: 14px 20px 13px;
+  margin: 27px 0 42px;
+}
