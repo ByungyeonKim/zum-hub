@@ -32,16 +32,18 @@ a {
 :root {
   font-size: 62.5%;
 
+  --fs--title: 4.2rem;
   --fs--xl: 2.4rem;
   --fs--600: 1.9rem;
   --fs--500: 1.7rem;
-  --fs--400: 1.4rem;
+  --fs--400: 1.5rem;
   --fs--xs: 1.2rem;
 
   --cl-zum-blue: #175cbe;
   --cl-white: #fff;
   --cl-description: #999;
   --cl-title: #444;
+  --cl-detail: #444;
   --cl-tag: #497eb1;
   --cl-text-black: #000;
   --cl-text-gray: #333;
@@ -155,7 +157,7 @@ header {
 .contents-section {
   max-width: 1170px;
   margin: auto;
-  padding: 10px;
+  padding: 10px 0;
 }
 
 .contents-section:not(:first-of-type) {
@@ -302,4 +304,70 @@ footer .stacks-list {
 
 footer .stacks-list .stacks-item {
   padding: 8px;
+}
+
+/* 상세 페이지 */
+.article-title {
+  min-height: 200px;
+  background-color: var(--cl-zum-blue);
+  padding: 72px 10px;
+  margin-bottom: 36px;
+}
+
+.main-title {
+  color: var(--cl-white);
+  font-size: var(--fs--title);
+}
+
+/* 메인 콘텐츠 */
+.article-body {
+  max-width: 780px;
+  margin: auto;
+  color: var(--cl-detail);
+  font-size: var(--fs--400);
+}
+
+.sub_title {
+  font-size: var(--fs--600);
+  line-height: 26px;
+  letter-spacing: -1px;
+  margin: 88px 0 29px;
+}
+
+.author {
+  display: block;
+  color: var(--cl-white);
+  padding-top: 17px;
+}
+
+.main-title,
+.author {
+  max-width: 1170px;
+  margin: auto;
+}
+
+.img_block {
+  text-align: center;
+  margin: 43px auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.img_block img {
+  vertical-align: top;
+  max-width: 780px;
+}
+
+.img_cap {
+  color: var(--cl-description);
+  font-size: 12px;
+  font-family: 돋움, dotum, Helvetica, 'Apple SD Gothic Neo', sans-serif;
+  line-height: 17px;
+  text-align: center;
+  padding: 11px 0px 0px 8px;
+}
+
+.mov_block {
+  padding: 48px 0;
+  margin: auto;
 }
