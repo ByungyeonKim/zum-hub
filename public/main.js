@@ -7,7 +7,6 @@ import Detail from './src/components/detail.js';
 
 const category = ['life', 'food', 'trip', 'culture'];
 const contents = new Contents();
-let selectedPage = false;
 
 for (const name of category) {
   contents //
@@ -27,21 +26,23 @@ contents //
 
 const goToDetailPage = () => {
   const contentsWrap = document.querySelectorAll('.contents-wrap');
+
   contentsWrap.forEach((content) => {
     content.addEventListener('click', (event) => {
       const content = event.target.closest('.content');
       const url = content.dataset.url.replace(/\//g, ' ');
+
       if (!content) {
         return;
       }
       contents //
         .detailPage(url)
         .then((result) => {
+          history.pushState({ page: 'detail' }, '', '/life');
           store.setSelectedPage({ selectedPage: result });
           render();
           useLazyLoading();
         });
-      selectedPage = true;
     });
   });
 };
@@ -51,8 +52,6 @@ const useLazyLoading = () => {
 
   const observerCallback = (entries, observer) => {
     entries.forEach(({ isIntersecting, intersectionRatio, target }) => {
-      console.log(target);
-
       if (isIntersecting && intersectionRatio > 0) {
         if (target.dataset.src) {
           target.src = target.dataset.src;
@@ -70,8 +69,12 @@ const render = () => {
   const app = document.querySelector('#app');
   app.innerHTML = `
     ${Header()}
-    ${selectedPage ? Detail() : Home()}
+    ${history.state ? Detail() : Home()}
     ${Footer()}
   `;
   goToDetailPage();
+};
+
+window.onpopstate = () => {
+  render();
 };
