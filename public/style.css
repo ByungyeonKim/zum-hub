@@ -314,9 +314,29 @@ footer .stacks-list .stacks-item {
   margin-bottom: 36px;
 }
 
-.main-title {
+.article-title a {
+  display: inline-block;
+  color: var(--cl-white);
+  font-size: var(--fs--400);
+  margin-bottom: 12px;
+}
+
+.article-title .main-title {
   color: var(--cl-white);
   font-size: var(--fs--title);
+}
+
+.article-title .author {
+  display: block;
+  color: var(--cl-white);
+  padding-top: 17px;
+}
+
+.article-title .top,
+.article-title .main-title,
+.article-title .author {
+  max-width: 1170px;
+  margin: auto;
 }
 
 /* 메인 콘텐츠 */
@@ -325,6 +345,7 @@ footer .stacks-list .stacks-item {
   margin: auto;
   color: var(--cl-detail);
   font-size: var(--fs--400);
+  line-height: 29px;
 }
 
 .sub_title {
@@ -332,18 +353,6 @@ footer .stacks-list .stacks-item {
   line-height: 26px;
   letter-spacing: -1px;
   margin: 88px 0 29px;
-}
-
-.author {
-  display: block;
-  color: var(--cl-white);
-  padding-top: 17px;
-}
-
-.main-title,
-.author {
-  max-width: 1170px;
-  margin: auto;
 }
 
 .img_block {
