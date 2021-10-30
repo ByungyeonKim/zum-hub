@@ -18,16 +18,16 @@ router.get('/:url', (req, res) => {
       const $ = cheerio.load(html.data);
       const data = {
         title: $('div.article_header > div > div > h2').text(),
+        category: $(
+          'div.article_header > div > div > p.top > strong'
+        ).html(),
         mainContents: $('div.article.d_article').html(),
         mediaName: $('#btn_media').text(),
       };
 
       return data;
     })
-    .then((result) => res.send(result))
-    .catch((error) => {
-      console.log(error);
-    });
+    .then((result) => res.send(result));
 });
 
 module.exports = router;
