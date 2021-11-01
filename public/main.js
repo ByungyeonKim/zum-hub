@@ -6,7 +6,10 @@ import store from './src/store.js';
 import Detail from './src/components/detail.js';
 
 const category = ['life', 'food', 'trip', 'culture'];
-const contents = new Contents();
+const httpClient = axios.create({
+  baseURL: 'http://localhost:3000/api',
+});
+const contents = new Contents(httpClient);
 
 for (const name of category) {
   contents //
