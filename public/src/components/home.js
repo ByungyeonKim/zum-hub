@@ -5,7 +5,14 @@ const Home = () => `
     <h1 class="blind">줌 허브 홈</h1>
     <nav class="nav-menu">
       <h2 class="blind">전체 메뉴</h2>
-      ${MenuList()}
+      <ul class="menu-list">
+        <li class="menu-item">HOME</li>
+        <li class="menu-item">라이프</li>
+        <li class="menu-item">푸드</li>
+        <li class="menu-item">여행</li>
+        <li class="menu-item">컬쳐</li>
+        <li class="menu-item">즐겨찾기</li>
+      </ul>
     </nav>
     ${Life()}
     ${Food()}
@@ -13,16 +20,6 @@ const Home = () => `
     ${Culture()}
     ${RealTimeBest()}
   </main>
-`;
-
-const MenuList = () => `
-  <ul class="menu-list">
-    ${store.state.menuItems.map(MenuItem).join('')}
-  </ul>
-`;
-
-const MenuItem = ({ title }) => `
-  <li class="menu-item">${title}</li>
 `;
 
 const Life = () => `
