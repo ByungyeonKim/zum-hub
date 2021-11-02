@@ -1,13 +1,9 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-const bestRouter = require('./src/api/best');
-const categoryRouter = require('./src/api/category');
-const detailPageRouter = require('./src/api/detail_page');
+const router = require('./src/api/router');
 
-app.use('/api/content', categoryRouter);
-app.use('/api/best', bestRouter);
-app.use('/api/detail', detailPageRouter);
+app.use('/api', router);
 app.use(express.static('public'));
 
 app.listen(port, () =>
