@@ -1,35 +1,21 @@
 class Contents {
-  constructor() {
-    this.baseURL = 'http://localhost:3000/api';
-    this.getRequestOptions = {
-      method: 'GET',
-      redirect: 'follow',
-    };
+  constructor(httpClient) {
+    this.contents = httpClient;
   }
 
   async getContents(name) {
-    const res = await fetch(
-      `${this.baseURL}/content/${name}`,
-      this.requestOptions
-    );
-
-    const result = await res.json();
-    return result;
+    const res = await this.contents.get(`content/${name}`);
+    return res.data;
   }
 
   async realTimeBest() {
-    const res = await fetch(`${this.baseURL}/best`, this.requestOptions);
-    const result = await res.json();
-    return result;
+    const res = await this.contents.get('best');
+    return res.data;
   }
 
   async detailPage(url) {
-    const res = await fetch(
-      `${this.baseURL}/detail/${url}`,
-      this.requestOptions
-    );
-    const result = await res.json();
-    return result;
+    const res = await this.contents.get(`detail/${url}`);
+    return res.data;
   }
 }
 
