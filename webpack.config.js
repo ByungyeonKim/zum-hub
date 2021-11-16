@@ -4,7 +4,6 @@ const path = require('path');
 const apiMocker = require('connect-api-mocker');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: {
@@ -63,15 +62,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/i,
+        test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
     ],
   },
-  plugins: [
-    new HtmlWebpackPlugin({ template: './public/index.html' }),
-    new MiniCssExtractPlugin(),
-  ],
+  plugins: [new HtmlWebpackPlugin({ template: './public/index.html' })],
   resolve: {
     modules: ['node_modules'],
     extensions: ['.js'],
