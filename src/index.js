@@ -26,7 +26,6 @@ async function fetchContents() {
     rankingContent: best,
   });
 
-  console.log(store);
   return render();
 }
 
@@ -89,4 +88,8 @@ window.onpopstate = () => {
   render();
 };
 
-fetchContents();
+try {
+  fetchContents();
+} catch (error) {
+  console.error(error);
+}
