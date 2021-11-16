@@ -9,27 +9,26 @@ import Detail from './components/detail.js';
 
 import axios from 'axios';
 
-const category = ['life', 'food', 'trip', 'culture'];
 const httpClient = axios.create({
   baseURL: 'http://localhost:8080/api',
 });
 const contents = new Contents(httpClient);
 
-for (const name of category) {
-  contents //
-    .getContents(name)
-    .then((result) => {
-      store.setState({ [name]: result });
-      render();
-    });
-}
+async function fetchContents() {
+  const life = await contents.content('life');
+  const food = await contents.content('food');
+  const trip = await contents.content('trip');
+  const culture = await contents.content('culture');
+  const best = await contents.best();
 
-contents //
-  .realTimeBest()
-  .then((result) => {
-    store.setState({ realTimeBest: result });
-    render();
+  store.setState({
+    hubContent: { life, food, trip, culture },
+    rankingContent: best,
   });
+
+  console.log(store);
+  return render();
+}
 
 const goToDetailPage = () => {
   const contentsWrap = document.querySelectorAll('.contents-wrap');
@@ -47,7 +46,7 @@ const goToDetailPage = () => {
         .replace(/\//g, ' ');
 
       contents //
-        .detailPage(url)
+        .detail(url)
         .then((result) => {
           history.pushState({ page: 'detail' }, '', '/life');
           store.setSelectedPage({ selectedPage: result });
@@ -89,3 +88,5 @@ const render = () => {
 window.onpopstate = () => {
   render();
 };
+
+fetchContents();
