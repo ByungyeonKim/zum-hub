@@ -3,17 +3,17 @@ class Contents {
     this.contents = httpClient;
   }
 
-  async getContents(name) {
-    const res = await this.contents.get(`content/${name}`);
+  async content(category) {
+    const res = await this.contents.get(`content/${category}`);
     return res.data;
   }
 
-  async realTimeBest() {
+  async best() {
     const res = await this.contents.get('best');
     return res.data;
   }
 
-  async detailPage(url) {
+  async detail(url) {
     const res = await this.contents.get(`detail/${url}`);
     return res.data;
   }
