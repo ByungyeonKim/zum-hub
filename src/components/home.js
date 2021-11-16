@@ -25,9 +25,9 @@ const ContentList = () => {
   const items = Object.values(hubContent);
 
   return items.map(
-    (item) => `
+    (item, i) => `
       <section class="contents-section">
-        <h2 class="tag-title"># ${category}</h2>
+        <h2 class="tag-title"># ${category[i]}</h2>
         <div class="contents-wrap">
           ${item.slice(0, 4).map(ContentItem).join('')}
         </div>
