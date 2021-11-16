@@ -14,74 +14,52 @@ const Home = () => `
         <li class="menu-item">즐겨찾기</li>
       </ul>
     </nav>
-    ${Life()}
-    ${Food()}
-    ${Trip()}
-    ${Culture()}
-    ${RealTimeBest()}
+    ${ContentList()}
+    ${BestList()}
   </main>
 `;
 
-const Life = () => `
-  <section class="contents-section">
-    <h2 class="tag-title">#라이프</h2>
-    <div class="contents-wrap">
-      ${store.state.life.slice(0, 4).map(Article).join('')}
-    </div>
-  </section>
-`;
+const ContentList = () => {
+  const hubContent = store.state.hubContent;
+  const category = ['라이프', '푸드', '여행', '컬쳐'];
+  const items = Object.values(hubContent);
 
-const Food = () => `
-  <section class="contents-section">
-    <h2 class="tag-title">#푸드</h2>
-    <div class="contents-wrap">
-      ${store.state.food.slice(0, 4).map(Article).join('')}
-    </div>
-  </section>
-`;
+  return items.map(
+    (item) => `
+      <section class="contents-section">
+        <h2 class="tag-title"># ${category}</h2>
+        <div class="contents-wrap">
+          ${item.slice(0, 4).map(ContentItem).join('')}
+        </div>
+      </section>
+    `
+  );
+};
 
-const Trip = () => `
-  <section class="contents-section">
-    <h2 class="tag-title">#여행</h2>
-    <div class="contents-wrap">
-      ${store.state.trip.slice(0, 4).map(Article).join('')}
-    </div>
-  </section>
-`;
-
-const Culture = () => `
-  <section class="contents-section">
-    <h2 class="tag-title">#문화</h2>
-    <div class="contents-wrap">
-      ${store.state.culture.slice(0, 4).map(Article).join('')}
-    </div>
-  </section>
-`;
-
-const Article = ({ title, imageUrl, mediaName, summaryContent, url }) => `
-  <article class="content" data-url="${url}">
-    <h3 class="blind">${title}</h3>
+const ContentItem = (item) => `
+  <article class="content" data-url="${item.url}">
+    <h3 class="blind">${item.title}</h3>
     <img
       class="thumbnail"
-      src="${imageUrl}"
-      alt="${mediaName} 기사"
+      src="${item.imageUrl}"
+      alt="${item.mediaName} 기사"
     />
-    <strong class="title">${title}</strong>
-    <p class="description">${summaryContent}</p>
-    <span class="author">by ${mediaName}</span>
+    <strong class="title">${item.title}</strong>
+    <p class="description">${item.summaryContent}</p>
+    <span class="author">by ${item.mediaName}</span>
   </article>
 `;
 
-const RealTimeBest = () => `
+const BestList = () => `
   <section class="best-section">
     <h2 class="tag-title">#실시간 TOP 12</h2>
     <ul class="best-list">
-      ${store.state.realTimeBest.map(BestArticle).join('')}
+      ${store.state.rankingContent.map(BestItem).join('')}
     </ul>
   </section>
 `;
 
-const BestArticle = ({ title, mediaName, url }, lank) => `
+const BestItem = ({ title, mediaName }, lank) => `
   <li class="best-item">
     <span class="lank">${lank + 1}</span>
     <div class="title-box">
