@@ -15,7 +15,6 @@ module.exports = {
   },
   devServer: {
     client: {
-      progress: true,
       overlay: {
         errors: true,
         warnings: false,
@@ -55,6 +54,7 @@ module.exports = {
           })
           .then((result) => res.send(result));
       });
+
       devServer.app.use(apiMocker('/api', 'mocks/api'));
     },
   },
@@ -68,8 +68,4 @@ module.exports = {
     ],
   },
   plugins: [new HtmlWebpackPlugin({ template: './public/index.html' })],
-  resolve: {
-    modules: ['node_modules'],
-    extensions: ['.js'],
-  },
 };
