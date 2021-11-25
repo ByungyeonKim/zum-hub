@@ -54,6 +54,68 @@
 
 ---
 
+## 우아하게 비동기 처리하기
+
+[토스ㅣSLASH 21 - 프론트엔드 웹 서비스에서 우아하게 비동기 처리하기](https://youtu.be/FvRtoViujGg)
+
+웹 서비스, 또는 UI 개발에서 가장 다루기 어려운 부분은 무엇일까? 영상에선 10여 년 전에 비해 많은 부분들이 개선되어 개발자가 신경써야 할 것들이 적어졌지만 그럼에도 어려운 영역은 '비동기 프로그래밍'이라고 한다. 시작부터 공감이 되어서 집중해서 보았다. 그리고 프로젝트에 적용해보고자 한다.
+
+```js
+const category = ['life', 'food', 'trip', 'culture'];
+const contents = new Contents(httpClient);
+
+for (const name of category) {
+  contents //
+    .getContents(name)
+    .then((result) => {
+      store.setState({ [name]: result });
+      render();
+    });
+}
+
+contents //
+  .realTimeBest()
+  .then((result) => {
+    store.setState({ rankingContent: result });
+    render();
+  });
+```
+
+위의 예시는 리팩토링 전 비동기 코드다. 해당 코드의 문제점은 무엇일까?
+
+- 코드가 중복되고 함수가 하는 역할이 잘 보이지 않는다.
+  - 위 코드를 보고 무슨 일을 하는지 알 수 있을까..?
+- 성공하는 경우와 실패하는 경우가 섞여서 처리된다.
+  - 심지어 나는 에러처리도 안하고 있었다..😵
+  - 코드를 작성하는 입장에서 매번 에러 유무를 확인해야 한다.
+
+```js
+async function fetchContents() {
+  const life = await contents.content('life');
+  const food = await contents.content('food');
+  const trip = await contents.content('trip');
+  const culture = await contents.content('culture');
+  const best = await contents.best();
+
+  store.setState({
+    hubContent: { life, food, trip, culture },
+    rankingContent: best,
+  });
+
+  return render();
+}
+```
+
+이번엔 어떨까? 영상에서 말하듯이 함수가 하는 역할이 명확히 드러나는 코드일까? `fetchContents()`라는 함수의 이름으로 역할이 드러나고, 동기적인 코드처럼 작성하여 추측하기가 쉽다. 역시 전 코드보다는 확실히 나은 것 같다. 위의 코드는 성공하는 경우만 다루고 실패하는 경우는 catch 절에서 분리해 처리할 수 있다. 또, 실패하는 경우에 대한 처리를 외부에 위임할 수 있고, 필요시 내부에서도 처리가 가능하다. async, await을 이용하면 비동기 코드를 동기적인 코드와 비슷하게 만들 수 있다.
+
+- 별도로 에러를 처리하는 부분이 없고 모든 에러 처리는 외부에 위임된다.
+- 함수가 하는 역할이 명확히 드러난다.
+- 중복되는 코드를 줄이고 간결해졌다. 보기가 쉽다.
+- 위 함수는 성공하는 부분만 책임지고, 다른 경우는 외부에 더 잘할 수 있는 부분에 위임한다.
+  - 필요시 내부에서 try catch로 처리할 수도 있다.
+
+---
+
 ## 프로젝트 실행 방법
 
 1. 프로젝트 Fork 하기
