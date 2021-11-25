@@ -1,18 +1,7 @@
 const store = {
-  state: {
-    life: [],
-    food: [],
-    trip: [],
-    culture: [],
-    realTimeBest: [],
-    selectedPage: [],
-  },
+  state: {},
 
   setState(newState) {
-    this.state = { ...this.state, ...newState };
-  },
-
-  setSelectedPage(newState) {
     this.state = { ...this.state, ...newState };
   },
 };
