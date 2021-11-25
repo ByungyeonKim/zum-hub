@@ -29,6 +29,14 @@ async function fetchContents() {
   return render();
 }
 
+async function fetchDetail(url) {
+  const detail = await contents.detail(url);
+
+  store.setState({ selectedPage: detail });
+
+  return render();
+}
+
 const goToDetailPage = () => {
   const contentsWrap = document.querySelectorAll('.contents-wrap');
 
@@ -44,14 +52,8 @@ const goToDetailPage = () => {
         .replace(/https:\/\/hub.zum.com\//g, '')
         .replace(/\//g, ' ');
 
-      contents //
-        .detail(url)
-        .then((result) => {
-          history.pushState({ page: 'detail' }, '', '/life');
-          store.setSelectedPage({ selectedPage: result });
-          render();
-          useLazyLoading();
-        });
+      fetchDetail(url).then(() => useLazyLoading()); //
+      history.pushState({ page: 'detail' }, '', '/life');
     });
   });
 };
