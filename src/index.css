@@ -166,7 +166,7 @@ header {
   border-top: 1px solid var(--cl-border);
 }
 
-.tag-title {
+.title {
   font-size: var(--fs--600);
   color: var(--cl-tag);
   padding: 16px 0;
