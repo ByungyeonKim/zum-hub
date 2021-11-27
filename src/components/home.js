@@ -21,32 +21,36 @@ const Home = () => `
 
 const ContentList = () => {
   const hubContent = store.state.hubContent;
-  const category = ['라이프', '푸드', '여행', '컬쳐'];
+  const content = ['라이프', '푸드', '여행', '컬쳐'];
   const items = Object.values(hubContent);
 
-  return items.map(
-    (item, i) => `
+  return items
+    .map(
+      (item, i) => `
       <section class="contents-section">
-        <h2 class="tag-title"># ${category[i]}</h2>
+        <h2 class="title"># ${content[i]}</h2>
         <div class="contents-wrap">
           ${item.slice(0, 4).map(ContentItem).join('')}
         </div>
       </section>
     `
-  );
+    )
+    .join('');
 };
 
-const ContentItem = (item) => `
-  <article class="content" data-url="${item.url}">
-    <h3 class="blind">${item.title}</h3>
-    <img
-      class="thumbnail"
-      src="${item.imageUrl}"
-      alt="${item.mediaName} 기사"
-    />
-    <strong class="title">${item.title}</strong>
-    <p class="description">${item.summaryContent}</p>
-    <span class="author">by ${item.mediaName}</span>
+const ContentItem = (value) => `
+  <article class="content">
+    <a href="${value.mediaName.toLowerCase()}/${value.idx}">
+      <h3 class="blind">${value.title}</h3>
+      <img
+        class="thumbnail"
+        src="${value.imageUrl}"
+        alt="${value.mediaName} 기사"
+      />
+      <strong class="title">${value.title}</strong>
+      <p class="description">${value.summaryContent}</p>
+      <span class="author">by ${value.mediaName}</span>
+    </a>
   </article>
 `;
 
