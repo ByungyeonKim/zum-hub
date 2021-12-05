@@ -1,7 +1,7 @@
 import './index.css';
 
-import Header from './components/header.js';
 import store from './store.js';
+import Header from './components/header.js';
 import Home from './components/home.js';
 import Contents from './service/contents.js';
 import Footer from './components/footer.js';
@@ -14,7 +14,7 @@ const httpClient = axios.create({
 });
 const contents = new Contents(httpClient);
 
-async function fetchContents() {
+const fetchContents = async () => {
   const life = await contents.content('life');
   const food = await contents.content('food');
   const trip = await contents.content('trip');
@@ -25,36 +25,31 @@ async function fetchContents() {
     hubContent: { life, food, trip, culture },
     rankingContent: best,
   });
+};
 
-  return render();
-}
-
-async function fetchDetail(url) {
+const fetchDetail = async (url) => {
   const detail = await contents.detail(url);
 
   store.setState({ selectedPage: detail });
+};
 
-  return render();
-}
+const navigateTo = (selector) => {
+  const navigation = document.querySelector(selector);
 
-const goToDetailPage = () => {
-  const contentsWrap = document.querySelectorAll('.contents-wrap');
+  navigation.addEventListener('click', (e) => {
+    const target = e.target.closest('a');
+    if (!target) return;
 
-  contentsWrap.forEach((content) => {
-    content.addEventListener('click', (event) => {
-      const content = event.target.closest('.content');
+    e.preventDefault();
 
-      if (!content) {
-        return;
-      }
+    const path = target.getAttribute('href');
 
-      const url = content.dataset.url
-        .replace(/https:\/\/hub.zum.com\//g, '')
-        .replace(/\//g, ' ');
+    window.history.pushState({ path }, null, path);
+    render(path).then(() => useLazyLoading());
+  });
 
-      fetchDetail(url).then(() => useLazyLoading()); //
-      history.pushState({ page: 'detail' }, '', '/life');
-    });
+  window.addEventListener('popstate', (e) => {
+    render(e.state ? e.state.path : '/');
   });
 };
 
@@ -76,22 +71,63 @@ const useLazyLoading = () => {
   imgs.forEach((img) => io.observe(img));
 };
 
-const render = () => {
+const router = (path) => {
+  const routes = [
+    { path: '/', view: Home() },
+    { path: '/:category', view: 'Category' },
+    { path: '/:category/:idx', view: 'Detail' },
+  ];
+
+  let params = path.match(/\w+/g);
+
+  if (params === null) {
+    params = '/';
+  } else if (params.length === 1) {
+    routes[1].path = `/${params[0]}`;
+  } else if (params.length === 2) {
+    routes[2].path = `/${params[0]}/${params[1]}`;
+  }
+
+  const isMatched = routes.map((route) => {
+    return {
+      route,
+      result: location.pathname === route.path,
+    };
+  });
+
+  let matched = isMatched.find((match) => {
+    return match.result === true;
+  });
+
+  // 매치된게 없으면 Home 컴포넌트 반환
+  if (!matched) {
+    matched = routes[0].view;
+  }
+
+  return matched.route.view;
+};
+
+const render = async (path) => {
   const app = document.getElementById('app');
-  app.innerHTML = `
-    ${Header()}
-    ${history.state ? Detail() : Home()}
-    ${Footer()}
-  `;
-  goToDetailPage();
+
+  try {
+    await fetchContents();
+
+    app.innerHTML = `
+        ${Header()}
+        ${router(path)}
+        ${Footer()}
+      `;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-window.onpopstate = () => {
-  render();
-};
-
-try {
-  fetchContents();
-} catch (error) {
-  console.error(error);
+function init() {
+  render('/');
+  // 셀렉터를 #app으로 했기 때문에 함수 순서가 바뀌어도 동작한다.
+  navigateTo('#app');
+  console.log('init 완료 🚀');
 }
+
+init();
