@@ -107,27 +107,28 @@ const router = (path) => {
   return matched.route.view;
 };
 
-const render = async (path) => {
+const render = (path) => {
   const app = document.getElementById('app');
 
-  try {
-    await fetchContents();
+  app.innerHTML = `
+    ${Header()}
+    ${router(path)}
+    ${Footer()}
+  `;
 
-    app.innerHTML = `
-        ${Header()}
-        ${router(path)}
-        ${Footer()}
-      `;
-  } catch (error) {
-    console.error(error);
-  }
+  console.log('render!');
 };
 
-function init() {
+const init = async () => {
+  await fetchContents();
   render('/');
   // 셀렉터를 #app으로 했기 때문에 함수 순서가 바뀌어도 동작한다.
   navigateTo('#app');
   console.log('init 완료 🚀');
-}
+};
 
-init();
+try {
+  init();
+} catch (err) {
+  console.error(err);
+}
