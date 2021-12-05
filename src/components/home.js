@@ -20,9 +20,11 @@ const Home = () => `
 `;
 
 const ContentList = () => {
-  const hubContent = store.state.hubContent;
   const content = ['라이프', '푸드', '여행', '컬쳐'];
+  const hubContent = store.state.hubContent;
+
   const items = Object.values(hubContent);
+  const category = Object.keys(hubContent);
 
   return items
     .map(
@@ -30,17 +32,20 @@ const ContentList = () => {
       <section class="contents-section">
         <h2 class="title"># ${content[i]}</h2>
         <div class="contents-wrap">
-          ${item.slice(0, 4).map(ContentItem).join('')}
+          ${item
+            .slice(0, 4)
+            .map((value) => ContentItem(value, i, category))
+            .join('')}
         </div>
       </section>
-    `
+      `
     )
     .join('');
 };
 
-const ContentItem = (value) => `
-  <article class="content">
-    <a href="${value.mediaName.toLowerCase()}/${value.idx}">
+const ContentItem = (value, i, category) => `
+  <article class="content" data-url="${value.url}">
+    <a href="${category[i]}/${value.idx}">
       <h3 class="blind">${value.title}</h3>
       <img
         class="thumbnail"
