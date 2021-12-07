@@ -1,8 +1,9 @@
 import Home from '../components/home';
+import Detail from '../components/detail';
 
 const router = (path) => {
   const routes = [
-    { path: '/', view: Home() },
+    { path: '/', view: 'Home' },
     { path: '/:category', view: 'Category' },
     { path: '/:category/:idx', view: 'Detail' },
   ];
@@ -11,10 +12,13 @@ const router = (path) => {
 
   if (params === null) {
     params = '/';
+    routes[0].view = Home();
   } else if (params.length === 1) {
     routes[1].path = `/${params[0]}`;
+    routes[1].view = 'Category';
   } else if (params.length === 2) {
     routes[2].path = `/${params[0]}/${params[1]}`;
+    routes[2].view = Detail();
   }
 
   const isMatched = routes.map((route) => {
