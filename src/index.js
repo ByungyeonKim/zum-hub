@@ -26,13 +26,7 @@ const fetchContents = async () => {
   });
 };
 
-const fetchDetail = async (url) => {
-  const detail = await contents.detail(url);
-
-  store.setState({ selectedPage: detail });
-};
-
-const navigateTo = (selector) => {
+const onClickContent = (selector) => {
   const navigation = document.querySelector(selector);
 
   navigation.addEventListener('click', (e) => {
@@ -40,11 +34,20 @@ const navigateTo = (selector) => {
     if (!target) return;
 
     e.preventDefault();
-
     const path = target.getAttribute('href');
 
     window.history.pushState({ path }, null, path);
-    render(path).then(() => useLazyLoading());
+
+    const detail = async () => {
+      const url = path.replace(/\//g, ' ');
+      const detail = await contents.detail(url);
+
+      store.setState({ selectedPage: detail });
+      render(path);
+      useLazyLoading();
+    };
+
+    return detail();
   });
 
   window.addEventListener('popstate', (e) => {
@@ -86,7 +89,7 @@ const init = async () => {
   await fetchContents();
   render('/');
   // 셀렉터를 #app으로 했기 때문에 함수 순서가 바뀌어도 동작한다.
-  navigateTo('#app');
+  onClickContent('#app');
   console.log('init 완료 🚀');
 };
 
